@@ -1,0 +1,52 @@
+1.
+SELECT `students`.`name`, `students`.`surname`, `degrees`.`name` AS `corso_laurea`
+FROM `students`
+JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+WHERE `degrees`.`name` = 'Corso di Laurea in Economia';
+
+2.
+SELECT `departments`.`name` AS `nome_dipartimento`, `degrees`.`name` AS `nome_corso`
+FROM `departments`
+JOIN `degrees` ON `departments`.`id` = `degrees`.`department_id`
+WHERE `degrees`.`name` LIKE 'Corso di laurea magistrale%'
+AND `departments`.`name` = 'Dipartimento di Neuroscienze';
+
+3.
+SELECT `courses`.`name` AS `nome_corso`, `teachers`.`name` AS `nome_insegnante`, `teachers`.`surname` AS `cognome_insegnate`
+FROM `courses`
+JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
+JOIN `teachers` ON `course_teacher`.`teacher_id`= `teachers`.`id`
+WHERE `teachers`.`name` = 'Fulvio'
+AND `teachers`.`surname` = 'Amato';
+
+4.
+SELECT `students`.`name`, `students`.`surname`, `degrees`.`name`
+FROM `students`
+JOIN `degrees` ON `students`.`degree_id` = `degrees`.`id`
+JOIN `departments` ON `degrees`.`department_id` = `departments`.`id`
+ORDER BY `students`.`surname`, `students`.`name`;
+
+5.
+SELECT `degrees`.`name` AS `corso_laurea`, `courses`.`name` AS `nome_corso`, `teachers`.`name` AS `nome_prof`
+FROM `degrees`
+JOIN `courses` ON  `degrees`.`id`=`courses`.`degree_id`
+JOIN `course_teacher` ON `courses`.`id` = `course_teacher`.`course_id`
+JOIN `teachers` ON `course_teacher`.`teacher_id` = `teachers`.`id`;
+
+6.
+SELECT DISTINCT `teachers`.`name` AS `nome_prof`, `teachers`.`surname` AS `cognome_prof`, `teachers`.`email` AS `email_prof`, `departments`.`name` AS `nome_dipartimento`
+FROM `teachers`
+JOIN `course_teacher` ON `teachers`.`id` = `course_teacher`.`teacher_id`
+JOIN `courses` ON `course_teacher`.`course_id` = `courses`.`id`
+JOIN `degrees` ON `courses`.`degree_id` = `degrees`.`id`
+JOIN `departments` ON `degrees`.`department_id`= `departments`.`id`
+WHERE `departments`.`name` = 'Dipartimento di Matematica'
+ORDER BY `cognome_prof`, `nome_prof`;
+
+7.
+SELECT `students`.`name`, `students`.`surname`, `students`.`email`, `exam_student`.`vote`, `exams`.`id`, `courses`.`id`
+FROM `exam_student`
+JOIN `students` ON `exam_student`.`student_id` = `students`.`id`
+JOIN `exams` ON `exam_student`.`exam_id` = `exams`.`id`
+WHERE`exam_student`.`vote` >= 18
+ORDER BY `students`.`surname`;
